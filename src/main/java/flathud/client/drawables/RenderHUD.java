@@ -23,7 +23,7 @@ implements Drawable {
         int height = 16;
         int y = (int) (DroidSans.height() - height) / 2;
         int fill = (int) ((player.getHealth() * 100) / player.getMaxHealth());
-        int width = (int) (DroidSans.getWidth(player.getDisplayName()) + player.getMaxHealth() * 5 + 16);
+        int width = (int) (DroidSans.getWidth(player.getDisplayName()) + player.getMaxHealth() * 5 + 12);
         int x = (int) (4 + (width / DroidSans.getWidth(player.getDisplayName())));
         RenderUtils.drawColoredQuad(0x000000, 200, 0, 0, width, height);
         DroidSans.drawString(player.getDisplayName(), x, y + 4, 0xFFFFFF);
@@ -32,7 +32,7 @@ implements Drawable {
         width = 24;
         height = (9 * 18) + 2;
         x = 0;
-        y = 100;
+        y = (mc.displayHeight - height) / 8;
         RenderUtils.drawColoredQuad(0x000000, 200, x, y + 4, width, height + 36);
 
         RenderHelper.enableStandardItemLighting();

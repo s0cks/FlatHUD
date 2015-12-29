@@ -58,6 +58,43 @@ public final class RenderUtils{
         GL11.glColor4d(r, g, b, 255);
     }
 
+    /*
+     * TODO: Fix some bug with blending and alphas
+     */
+    public static void drawGradientQuad(int left, int right, double x, double y, double z, double width, double height){
+        if(width <= 0 || height <= 0){
+            return;
+        }
+
+        GL11.glPushMatrix();
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_ALPHA_TEST);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+        Tessellator tess = Tessellator.instance;
+        int alpha = 255;
+        int r = (left >> 16 & 0xFF);
+        int g = (left >> 8 & 0xFF);
+        int b = (left & 0xFF);
+        tess.startDrawingQuads();
+        tess.setColorRGBA(r, g, b, alpha);
+        tess.addVertex(x, y + height, z);
+        tess.addVertex(x + width, y + height, z);
+        r = (right >> 16 & 0xFF);
+        g = (right >> 8 & 0xFF);
+        b = (right & 0xFF);
+        tess.setColorRGBA(r, g, b, alpha);
+        tess.addVertex(x + width, y, z);
+        tess.addVertex(x, y, z);
+        tess.draw();
+
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glEnable(GL11.GL_ALPHA_TEST);
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glPopMatrix();
+    }
+
     public static void renderItem3D(ItemStack stack){
         if(stack == null) return;
         TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();

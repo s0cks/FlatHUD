@@ -26,8 +26,19 @@ implements Drawable {
         int width = (int) (DroidSans.getWidth(player.getDisplayName()) + player.getMaxHealth() * 5 + 12);
         int x = (int) (4 + (width / DroidSans.getWidth(player.getDisplayName())));
         RenderUtils.drawColoredQuad(0x000000, 200, 0, 0, width, height);
-        DroidSans.drawString(player.getDisplayName(), x, y + 4, 0xFFFFFF);
+        DroidSans.drawString(player.getDisplayName(), x, y + (height / 2) + 1, 0xFFFFFF, 2);
         RenderUtils.drawColoredQuad(0xFF0000, 200, x + DroidSans.getWidth(player.getDisplayName()) + 4, y + 2, fill, 12);
+        DroidSans.drawString("Health", (int) (x + DroidSans.getWidth(player.getDisplayName()) + 4 + (200 / 8)), 9, 0xFFFFFF, 2);
+
+        if(player.experience > 0){
+            x = 0;
+            y += height + 2;
+            fill = (int) ((player.experience * 173));
+            RenderUtils.drawColoredQuad(0x000000, 200, x, y, width, height);
+            RenderUtils.drawColoredQuad(0x00FF00, 200, x + 2, y + 2, fill, height - 4);
+            String lvl = "Current Level: " + player.experienceLevel;
+            DroidSans.drawString(lvl, (int) ((width - DroidSans.getWidth(lvl)) / 2), y + (height / 2) + 1, 0xFFFFFF, 2);
+        }
 
         width = 24;
         height = (9 * 18) + 2;
@@ -36,6 +47,7 @@ implements Drawable {
         RenderUtils.drawColoredQuad(0x000000, 200, x, y + 4, width, height + 36);
 
         RenderHelper.enableStandardItemLighting();
+
         for(int i = 0; i < 9; i++){
             if(i == player.inventory.currentItem){
                 RenderHelper.disableStandardItemLighting();
@@ -51,6 +63,7 @@ implements Drawable {
 
             y += 22;
         }
+
         RenderHelper.disableStandardItemLighting();
     }
 
